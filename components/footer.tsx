@@ -1,0 +1,79 @@
+import { Phone, Mail, MapPin, Clock } from "lucide-react"
+
+export function Footer() {
+  return (
+    <footer className="bg-[#0a0a0a] border-t border-[#1a1a1a]">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid md:grid-cols-4 gap-12">
+          {/* Brand */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold chrome-text">REPUESTOS GERMANA</h3>
+            <div className="h-1 w-20 m-stripe rounded-full" />
+            <p className="text-[#a0a0a0] text-sm leading-relaxed">
+              Taller automotriz especializado en vehículos alemanes. BMW, Mercedes Benz, Audi, Volkswagen y Mini Cooper.
+            </p>
+          </div>
+
+          {/* Contact */}
+          <div className="space-y-4">
+            <h4 className="text-white font-bold uppercase tracking-wider">Contacto</h4>
+            <div className="space-y-3">
+              <a
+                href="tel:+573025459865"
+                className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
+              >
+                <Phone className="w-4 h-4 text-[#0066B1]" />
+                (+57) 302 545 9865
+              </a>
+              <a
+                href="tel:+573043598195"
+                className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
+              >
+                <Phone className="w-4 h-4 text-[#c41e3a]" />
+                (+57) 304 359 8195
+              </a>
+              <div className="flex items-center gap-3 text-[#a0a0a0] text-sm">
+                <Mail className="w-4 h-4 text-[#0066B1]" />
+                info@repuestosgermana.com
+              </div>
+            </div>
+          </div>
+
+          {/* Hours */}
+          <div className="space-y-4">
+            <h4 className="text-white font-bold uppercase tracking-wider">Horario</h4>
+            <div className="space-y-2 text-[#a0a0a0] text-sm">
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-[#0066B1]" />
+                <span>Lun - Vie: 8:00 - 17:00</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-[#c41e3a]" />
+                <span>Sábado: 8:30 - 15:00</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-[#a0a0a0]" />
+                <span>Domingo: Cerrado</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="space-y-4">
+            <h4 className="text-white font-bold uppercase tracking-wider">Ubicación</h4>
+            <div className="flex items-start gap-3 text-[#a0a0a0] text-sm">
+              <MapPin className="w-4 h-4 text-[#0066B1] mt-0.5" />
+              <span>Bogotá, Colombia</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 border-t border-[#1a1a1a] flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[#a0a0a0] text-sm">© 2026 Repuestos Germana. Todos los derechos reservados.</p>
+          <div className="h-1 w-24 m-stripe rounded-full" />
+        </div>
+      </div>
+    </footer>
+  )
+}
