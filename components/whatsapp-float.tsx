@@ -30,7 +30,7 @@ export function WhatsAppFloat({ settings }: WhatsAppFloatProps) {
 
     return (
         <a
-            href={`https://wa.me/${settings?.whatsappNumber || "573025459865"}`}
+            href={`https://wa.me/57${settings?.whatsappNumber || "3025459865"}`}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(

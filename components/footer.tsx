@@ -6,6 +6,7 @@ interface FooterProps {
     whatsappNumber?: string
     email?: string
     address?: string
+    footerDescription?: string
     socials?: {
       facebook?: string
       instagram?: string
@@ -24,7 +25,7 @@ export function Footer({ settings }: FooterProps) {
             <h3 className="text-2xl font-bold chrome-text">REPUESTOS GERMANA</h3>
             <div className="h-1 w-20 m-stripe rounded-full" />
             <p className="text-[#a0a0a0] text-sm leading-relaxed">
-              Taller automotriz especializado en vehículos alemanes. BMW, Mercedes Benz, Audi, Volkswagen y Mini Cooper.
+              {settings?.footerDescription || "Taller automotriz especializado en vehículos alemanes. BMW, Mercedes Benz, Audi, Volkswagen y Mini Cooper."}
             </p>
           </div>
 

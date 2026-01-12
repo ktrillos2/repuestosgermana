@@ -17,6 +17,13 @@ export default defineType({
             options: { hotspot: true },
         }),
         defineField({
+            name: 'footerDescription',
+            title: 'Descripción Footer',
+            type: 'text',
+            rows: 3,
+            description: 'Texto breve que aparece debajo del logo en el footer.',
+        }),
+        defineField({
             name: 'headerMenu',
             title: 'Menú Header',
             type: 'reference',
@@ -49,6 +56,13 @@ export default defineType({
             name: 'address',
             title: 'Dirección Principal',
             type: 'text',
+        }),
+        defineField({
+            name: 'schedule',
+            title: 'Horario de Atención',
+            type: 'array',
+            of: [{ type: 'string' }],
+            description: 'Ej: ["Lun - Vie: 8:00 - 17:00", "Sábado: 8:30 - 15:00"]',
         }),
         defineField({
             name: 'googleMapsUrl',

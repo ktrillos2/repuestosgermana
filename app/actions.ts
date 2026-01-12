@@ -3,6 +3,7 @@
 import { Resend } from "resend"
 import { client } from "@/sanity/lib/client"
 import { SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { getContactEmailHtml } from "@/lib/email-templates"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -19,17 +20,16 @@ export async function sendEmail(formData: FormData) {
 
         const { data, error } = await resend.emails.send({
             from: "onboarding@resend.dev", // Using default for now
-            to: "keynertrillos22@gmail.com", // Override for testing to ensure delivery if domain not verified
+            to: "linamariaesp2106@gmail.com", // Updated to verified email for testing
             // to: toEmail, // Production would use this
             subject: `Nuevo mensaje de contacto de ${nombre}`,
-            html: `
-        <h2>Nuevo Mensaje de Contacto</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Teléfono:</strong> ${telefono}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Mensaje:</strong></p>
-        <p>${mensaje}</p>
-      `,
+            html: getContactEmailHtml({
+                nombre,
+                email,
+                telefono,
+                mensaje,
+                logoUrl: settings?.logo
+            }),
         })
 
         if (error) {

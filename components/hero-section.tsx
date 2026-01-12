@@ -38,6 +38,7 @@ interface HeroProps {
       color: string
     }>
     backgroundImage?: string
+    description?: string // Added
   }
   services?: {
     cards?: Array<{
@@ -48,9 +49,10 @@ interface HeroProps {
   }
   settings?: {
     whatsappNumber?: string
+    phoneNumber?: string
+    address?: string
   }
 }
-
 
 export function HeroSection({ data, services, settings }: HeroProps) {
   const slides = data?.slides || heroSlides
@@ -100,9 +102,24 @@ export function HeroSection({ data, services, settings }: HeroProps) {
             {/* Main heading with animated brand rotation */}
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1]">
-                <span className="text-white">Especialistas en</span>
-                <br />
-                <span className="chrome-text">Vehículos</span>
+                {data?.mainHeading ? (
+                  <span className="text-white">{data.mainHeading}</span>
+                ) : (
+                  <>
+                    <span className="text-white">Especialistas en</span>
+                    <br />
+                    <span className="chrome-text">Vehículos</span>
+                  </>
+                )}
+                {/* Removed dynamic slide title to avoid redundancy if mainHeading is full, 
+                    OR keep it if mainHeading is just the prefix. 
+                    User asked to update textual content. 
+                    If I use mainHeading, I might not want the dynamic suffix loop unless mainHeading implies it. 
+                    But the loop is "activeSlides[currentSlide].title". 
+                    If user changes mainHeading to "Bienvenidos a", then "BMW" etc makes sense.
+                    If user sets mainHeading to "Taller Germana", then "BMW" appears after.
+                    I will keep the loop. 
+                */}
                 <br />
                 <span
                   className="inline-block transition-all duration-500"
@@ -117,11 +134,17 @@ export function HeroSection({ data, services, settings }: HeroProps) {
               </p>
 
               <p className="text-[#b0b0b0] text-lg md:text-xl max-w-lg leading-relaxed">
-                Taller automotriz especializado en <span className="text-white font-medium">BMW</span>,{" "}
-                <span className="text-white font-medium">Mercedes Benz</span>,{" "}
-                <span className="text-white font-medium">Audi</span>,{" "}
-                <span className="text-white font-medium">Volkswagen</span> y{" "}
-                <span className="text-white font-medium">Mini Cooper</span>.
+                {data?.description ? (
+                  data.description
+                ) : (
+                  <>
+                    Taller automotriz especializado en <span className="text-white font-medium">BMW</span>,{" "}
+                    <span className="text-white font-medium">Mercedes Benz</span>,{" "}
+                    <span className="text-white font-medium">Audi</span>,{" "}
+                    <span className="text-white font-medium">Volkswagen</span> y{" "}
+                    <span className="text-white font-medium">Mini Cooper</span>.
+                  </>
+                )}
               </p>
             </div>
 
@@ -168,7 +191,7 @@ export function HeroSection({ data, services, settings }: HeroProps) {
 
             <div className="grid grid-cols-2 gap-4 pt-6">
               <a
-                href="tel:+573025459865"
+                href={`tel:+57${settings?.phoneNumber || "3025459865"}`}
                 className="bg-[#111111]/80 backdrop-blur-sm border border-[#1a1a1a] rounded-sm p-4 hover:border-[#0066B1] hover:bg-[#0066B1]/10 transition-all duration-300 group cursor-pointer hover:scale-105"
               >
                 <div className="flex items-center gap-3">
@@ -179,7 +202,7 @@ export function HeroSection({ data, services, settings }: HeroProps) {
                     <div className="text-[#a0a0a0] text-xs uppercase tracking-wider group-hover:text-[#0066B1] transition-colors">
                       Llámenos
                     </div>
-                    <div className="text-white font-semibold">(+57) 302 545 9865</div>
+                    <div className="text-white font-semibold">(+57) {settings?.phoneNumber || "302 545 9865"}</div>
                   </div>
                 </div>
               </a>
@@ -230,7 +253,7 @@ export function HeroSection({ data, services, settings }: HeroProps) {
               <div className="flex items-center gap-3">
                 <MapPin className="w-6 h-6 text-white" />
                 <div>
-                  <div className="text-white font-semibold">Bogotá, Colombia</div>
+                  <div className="text-white font-semibold">{settings?.address || "Bogotá, Colombia"}</div>
                   <div className="text-white/70 text-sm">Visítenos hoy</div>
                 </div>
               </div>

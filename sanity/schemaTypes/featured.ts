@@ -7,6 +7,12 @@ export default defineType({
     fields: [
         // Why Us Section
         defineField({
+            name: 'whyUsSubtitle',
+            title: 'Subtítulo "Por Qué Elegirnos"',
+            type: 'string',
+            initialValue: 'Somos Los Mejores',
+        }),
+        defineField({
             name: 'whyUsTitle',
             title: 'Título "Por Qué Elegirnos"',
             type: 'string',
@@ -53,6 +59,12 @@ export default defineType({
 
         // Testimonials Section
         defineField({
+            name: 'testimonialsSubtitle',
+            title: 'Subtítulo Testimonios',
+            type: 'string',
+            initialValue: 'Testimonios',
+        }),
+        defineField({
             name: 'testimonialsTitle',
             title: 'Título Testimonios',
             type: 'string',
@@ -74,6 +86,33 @@ export default defineType({
                     ],
                 }),
             ],
+        }),
+
+        // CTA Section
+        defineField({
+            name: 'ctaTitle',
+            title: 'Título CTA Final',
+            type: 'string',
+            initialValue: '¡Llámenos Ya o Visítenos!',
+        }),
+        defineField({
+            name: 'ctaDescription',
+            title: 'Descripción CTA Final',
+            type: 'text',
+            rows: 2,
+            initialValue: 'Estamos listos para atender sus necesidades de mantenimiento y repuestos.',
+        }),
+        defineField({
+            name: 'ctaWhatsappText',
+            title: 'Texto Botón WhatsApp',
+            type: 'string',
+            initialValue: 'WhatsApp',
+        }),
+        defineField({
+            name: 'ctaPhoneText',
+            title: 'Texto Botón Llamar',
+            type: 'string',
+            initialValue: 'Llamar Ya',
         }),
     ],
 })

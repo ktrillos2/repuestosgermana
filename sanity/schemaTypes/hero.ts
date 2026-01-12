@@ -12,6 +12,13 @@ export default defineType({
             description: 'Ej: Especialistas en Vehículos',
         }),
         defineField({
+            name: 'description',
+            title: 'Descripción (Texto Largo)',
+            type: 'text',
+            rows: 3,
+            description: 'El texto descriptivo debajo del título principal.',
+        }),
+        defineField({
             name: 'slides',
             title: 'Diapositivas (Marcas)',
             type: 'array',

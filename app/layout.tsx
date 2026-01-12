@@ -10,35 +10,41 @@ const oxanium = Oxanium({
   variable: "--font-oxanium",
 })
 
-export const metadata: Metadata = {
-  title: "Repuestos Germana | Especialistas en Vehículos Alemanes",
-  description:
-    "Taller especializado y venta de repuestos originales para BMW, Mercedes Benz, Audi y Mini Cooper en Bogotá. Servicio garantizado.",
-  keywords:
-    "repuestos germana, taller bmw bogota, repuestos mercedes benz, taller audi, mantenimiento volkswagen, repuestos mini cooper, mecánica especializada, repuestos originales",
-  icons: {
-    icon: "/images/image.png",
-    apple: "/images/image.png",
-  },
-  openGraph: {
-    type: "website",
-    locale: "es_CO",
-    url: "https://repuestosgermana.com",
-    title: "Repuestos Germana | Especialistas en Vehículos Alemanes",
-    description: "Taller especializado y venta de repuestos originales para BMW, Mercedes Benz, Audi y Mini Cooper en Bogotá.",
-    images: [{ url: "/images/image.png" }],
-    siteName: "Repuestos Germana",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await client.fetch(SETTINGS_QUERY, {}, { cache: "no-store" })
+
+  const title = "Repuestos Germana | Especialistas en Vehículos Alemanes"
+  const description = "Taller especializado y venta de repuestos originales para BMW, Mercedes Benz, Audi y Mini Cooper en Bogotá. Servicio garantizado."
+  const logo = settings?.logo || "/images/image.png"
+
+  return {
+    title,
+    description,
+    keywords: "repuestos germana, taller bmw bogota, repuestos mercedes benz, taller audi, mantenimiento volkswagen, repuestos mini cooper, mecánica especializada, repuestos originales",
+    icons: {
+      icon: logo,
+      apple: logo,
+    },
+    openGraph: {
+      type: "website",
+      locale: "es_CO",
+      url: "https://repuestosgermana.com",
+      title,
+      description,
+      images: [{ url: logo }],
+      siteName: "Repuestos Germana",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
+  }
 }
 
 import { WhatsAppFloat } from "@/components/whatsapp-float"

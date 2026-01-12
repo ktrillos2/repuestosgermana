@@ -28,3 +28,5 @@ export const FEATURED_QUERY = groq`*[_type == "featured"][0] {
   ...,
   "whyUsImage": whyUsImage.asset->url
 }`
+
+export const CONTACT_QUERY = groq`*[_type == "contact"][0]`

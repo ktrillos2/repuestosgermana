@@ -5,7 +5,8 @@ import settings from './settings'
 import navigation from './navigation'
 import categories from './categories'
 import featured from './featured'
+import contact from './contact'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [hero, services, settings, navigation, categories, featured],
+  types: [hero, services, settings, navigation, categories, featured, contact],
 }

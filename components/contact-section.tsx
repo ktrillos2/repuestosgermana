@@ -13,7 +13,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Teléfonos",
-    details: ["CARGANDO..."], // Will be replaced by props
+    details: ["(+57) 302 545 9865"], // Default fallback
     color: "#0066B1",
     href: "tel:",
   },
@@ -39,19 +39,35 @@ const contactInfo = [
 ]
 
 interface ContactProps {
+  data?: {
+    sectionSubtitle?: string;
+    sectionTitle?: string;
+    sectionDescription?: string;
+    phoneTitle?: string;
+    emailTitle?: string;
+    scheduleTitle?: string;
+    locationTitle?: string;
+    whatsappTitle?: string;
+    whatsappDescription?: string;
+    whatsappButtonText?: string;
+    formTitle?: string;
+    formDescription?: string;
+    formButtonText?: string;
+  };
   settings?: {
-    phoneNumber?: string
-    whatsappNumber?: string
-    email?: string
-    address?: string
+    phoneNumber?: string;
+    whatsappNumber?: string;
+    email?: string;
+    address?: string;
+    schedule?: string[];
     socials?: {
-      facebook?: string
-      instagram?: string
-    }
-  }
+      facebook?: string;
+      instagram?: string;
+    };
+  };
 }
 
-export function ContactSection({ settings }: ContactProps) {
+export function ContactSection({ data, settings }: ContactProps) {
 
   const [formState, setFormState] = useState({
     nombre: "",
@@ -101,14 +117,20 @@ export function ContactSection({ settings }: ContactProps) {
         {/* Section header */}
         <ScrollAnimation direction="up">
           <div className="text-center mb-16">
-            <span className="text-[#0066B1] text-sm font-semibold uppercase tracking-wider">Contáctenos</span>
+            <span className="text-[#0066B1] text-sm font-semibold uppercase tracking-wider">{data?.sectionSubtitle || "Contáctenos"}</span>
             <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
-              <span className="text-white">Estamos Aquí Para </span>
-              <span className="chrome-text">Ayudarte</span>
+              {data?.sectionTitle ? (
+                <span className="text-white">{data.sectionTitle}</span>
+              ) : (
+                <>
+                  <span className="text-white">Estamos Aquí Para </span>
+                  <span className="chrome-text">Ayudarte</span>
+                </>
+              )}
             </h2>
             <div className="h-1.5 w-24 m-stripe rounded-full mx-auto" />
             <p className="text-[#a0a0a0] max-w-2xl mx-auto mt-6 text-lg">
-              Agenda tu cita o contáctanos para cualquier consulta sobre tu vehículo alemán
+              {data?.sectionDescription || "Agenda tu cita o contáctanos para cualquier consulta sobre tu vehículo alemán"}
             </p>
           </div>
         </ScrollAnimation>
@@ -121,17 +143,33 @@ export function ContactSection({ settings }: ContactProps) {
                 // Dynamic overrides
                 let details = info.details;
                 let href = info.href;
+                let title = info.title;
 
-                if (info.title === "Teléfonos" && settings?.phoneNumber) {
-                  details = [`(+57) ${settings.phoneNumber}`, `(+57) ${settings.whatsappNumber || ""}`]
-                  href = `tel:+57${settings.phoneNumber}`
+                if (info.title === "Teléfonos") {
+                  title = data?.phoneTitle || "Teléfonos";
+                  if (settings?.phoneNumber) {
+                    details = [`(+57) ${settings.phoneNumber}`, `(+57) ${settings.whatsappNumber || ""}`];
+                    href = `tel:+57${settings.phoneNumber}`;
+                  }
                 }
-                if (info.title === "Email" && settings?.email) {
-                  details = [settings.email]
-                  href = `mailto:${settings.email}`
+                if (info.title === "Email") {
+                  title = data?.emailTitle || "Email";
+                  if (settings?.email) {
+                    details = [settings.email];
+                    href = `mailto:${settings.email}`;
+                  }
                 }
-                if (info.title === "Ubicación" && settings?.address) {
-                  details = [settings.address]
+                if (info.title === "Horario") {
+                  title = data?.scheduleTitle || "Horario";
+                  if (settings?.schedule) {
+                    details = settings.schedule;
+                  }
+                }
+                if (info.title === "Ubicación") {
+                  title = data?.locationTitle || "Ubicación";
+                  if (settings?.address) {
+                    details = [settings.address];
+                  }
                 }
 
                 return (
@@ -148,7 +186,7 @@ export function ContactSection({ settings }: ContactProps) {
                             </div>
                             <div>
                               <h3 className="text-white font-semibold mb-2 group-hover:text-[#0066B1] transition-colors">
-                                {info.title}
+                                {title}
                               </h3>
                               {info.details.map((detail, i) => (
                                 <p key={i} className="text-[#a0a0a0] text-sm">
@@ -167,7 +205,7 @@ export function ContactSection({ settings }: ContactProps) {
                             <info.icon className="w-6 h-6 transition-colors" style={{ color: info.color }} />
                           </div>
                           <div>
-                            <h3 className="text-white font-semibold mb-2">{info.title}</h3>
+                            <h3 className="text-white font-semibold mb-2">{title}</h3>
                             {info.details.map((detail, i) => (
                               <p key={i} className="text-[#a0a0a0] text-sm">
                                 {detail}
@@ -194,18 +232,18 @@ export function ContactSection({ settings }: ContactProps) {
                     </svg>
                   </div>
                   <div className="flex-1 text-center sm:text-left">
-                    <h3 className="text-white font-bold text-lg">Respuesta Inmediata</h3>
-                    <p className="text-[#a0a0a0] text-sm">Contáctanos por WhatsApp para atención rápida</p>
+                    <h3 className="text-white font-bold text-lg">{data?.whatsappTitle || "Respuesta Inmediata"}</h3>
+                    <p className="text-[#a0a0a0] text-sm">{data?.whatsappDescription || "Contáctanos por WhatsApp para atención rápida"}</p>
                   </div>
                   <Button
                     className="bg-[#25D366] hover:bg-[#22c55e] text-white font-bold px-6 py-6 rounded-sm transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(37,211,102,0.4)]"
                     asChild
                   >
-                    <a href={`https://wa.me/${settings?.whatsappNumber || "573025459865"}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://wa.me/57${settings?.whatsappNumber || "3025459865"}`} target="_blank" rel="noopener noreferrer">
                       <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                       </svg>
-                      WhatsApp
+                      {data?.whatsappButtonText || "WhatsApp"}
                     </a>
                   </Button>
                 </div>
@@ -217,8 +255,8 @@ export function ContactSection({ settings }: ContactProps) {
           {/* Contact form */}
           <ScrollAnimation direction="right">
             <div className="bg-[#111111] border border-[#1a1a1a] rounded-sm p-8 hover:border-[#0066B1]/30 transition-colors">
-              <h3 className="text-white text-2xl font-bold mb-2">Envíanos un Mensaje</h3>
-              <p className="text-[#a0a0a0] mb-6">Completa el formulario y te contactaremos pronto</p>
+              <h3 className="text-white text-2xl font-bold mb-2">{data?.formTitle || "Envíanos un Mensaje"}</h3>
+              <p className="text-[#a0a0a0] mb-6">{data?.formDescription || "Completa el formulario y te contactaremos pronto"}</p>
 
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -287,7 +325,7 @@ export function ContactSection({ settings }: ContactProps) {
                     ) : (
                       <span className="flex items-center gap-2">
                         <Send className="w-5 h-5" />
-                        Enviar Mensaje
+                        {data?.formButtonText || "Enviar Mensaje"}
                       </span>
                     )}
                   </Button>

@@ -4,56 +4,6 @@ import { Wrench, Gauge, Settings, Zap, Wind, CircleDot, ArrowRight, Phone } from
 import { Button } from "@/components/ui/button"
 import { ScrollAnimation } from "@/components/scroll-animation"
 
-const services = [
-  {
-    id: 1,
-    icon: Wrench,
-    number: "01",
-    name: "Mecánica Automotriz",
-    description: "Mantenimiento preventivo y correctivo con honestidad y garantía en el servicio.",
-    accent: "#0066B1",
-  },
-  {
-    id: 2,
-    icon: Settings,
-    number: "02",
-    name: "Repuestos Originales",
-    description: "Importamos y comercializamos repuestos originales, nuevos o usados a nivel nacional.",
-    accent: "#c41e3a",
-  },
-  {
-    id: 3,
-    icon: Gauge,
-    number: "03",
-    name: "Suspensión y Amortiguadores",
-    description: "Equilibrio en las cargas de su vehículo con amortiguadores originales.",
-    accent: "#c0c0c0",
-  },
-  {
-    id: 4,
-    icon: Zap,
-    number: "04",
-    name: "Diagnóstico Express",
-    description: "Escáner, cambio de aceite, pastillas, batería o filtros. Atención rápida y efectiva.",
-    accent: "#0066B1",
-  },
-  {
-    id: 5,
-    icon: Wind,
-    number: "05",
-    name: "Aire Acondicionado",
-    description: "Mantenimiento, cambio de filtros, diagnóstico y recarga del sistema de A/C.",
-    accent: "#c41e3a",
-  },
-  {
-    id: 6,
-    icon: CircleDot,
-    number: "06",
-    name: "Alineación y Balanceo",
-    description: "Ajuste y cambio de neumáticos y rines para prolongar su vida útil.",
-    accent: "#c0c0c0",
-  },
-]
 
 const iconMap: Record<string, React.ReactNode> = {
   wrench: <Wrench className="w-7 h-7" />,
@@ -69,6 +19,9 @@ interface CategoriesProps {
     heading?: string
     subheading?: string
     description?: string
+    ctaTitle?: string
+    ctaDescription?: string
+    ctaButtonText?: string
     services?: Array<{
       number: string
       name: string
@@ -79,7 +32,7 @@ interface CategoriesProps {
 }
 
 export function CategoriesSection({ data }: CategoriesProps) {
-  const servicesList = data?.services || services
+  const servicesList = data?.services || []
 
   return (
     <section id="servicios" className="py-24 bg-[#0a0a0a] relative overflow-hidden">
@@ -104,17 +57,23 @@ export function CategoriesSection({ data }: CategoriesProps) {
               <div className="inline-flex items-center gap-2 mb-4">
                 <div className="w-12 h-px bg-[#0066B1]" />
                 <span className="text-[#0066B1] text-sm font-semibold tracking-widest uppercase">
-                  Nuestros Servicios
+                  {data?.subheading || "Nuestros Servicios"}
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                <span className="text-white">Lo Que</span>
-                <br />
-                <span className="chrome-text">Ofrecemos</span>
+                {data?.heading ? (
+                  <span className="text-white">{data.heading}</span>
+                ) : (
+                  <>
+                    <span className="text-white">Lo Que</span>
+                    <br />
+                    <span className="chrome-text">Ofrecemos</span>
+                  </>
+                )}
               </h2>
             </div>
             <p className="text-[#a0a0a0] text-lg max-w-md leading-relaxed lg:text-right">
-              Mecánica especializada para automóviles alemanes con la mejor calidad y garantía.
+              {data?.description || "Mecánica especializada para automóviles alemanes con la mejor calidad y garantía."}
             </p>
           </div>
         </ScrollAnimation>
@@ -175,9 +134,11 @@ export function CategoriesSection({ data }: CategoriesProps) {
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  ¿Necesita una revisión de su vehículo?
+                  {data?.ctaTitle || "¿Necesita una revisión de su vehículo?"}
                 </h3>
-                <p className="text-[#a0a0a0]">Reserve una cita para diagnóstico, reparación o mantenimiento.</p>
+                <p className="text-[#a0a0a0]">
+                  {data?.ctaDescription || "Reserve una cita para diagnóstico, reparación o mantenimiento."}
+                </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
@@ -185,7 +146,7 @@ export function CategoriesSection({ data }: CategoriesProps) {
                   className="bg-[#0066B1] hover:bg-[#0077cc] text-white font-bold px-8 py-6 rounded-sm uppercase tracking-wider text-sm transition-all hover:shadow-[0_0_30px_rgba(0,102,177,0.4)]"
                   asChild
                 >
-                  <a href="#contacto">Solicitar Cita</a>
+                  <a href="#contacto">{data?.ctaButtonText || "Solicitar Cita"}</a>
                 </Button>
                 <Button
                   size="lg"

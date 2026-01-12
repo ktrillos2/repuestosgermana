@@ -54,5 +54,24 @@ export default defineType({
                 }),
             ],
         }),
+        defineField({
+            name: 'ctaTitle',
+            title: 'Título CTA (Llamado a la acción)',
+            type: 'string',
+            initialValue: '¿Necesita una revisión de su vehículo?',
+        }),
+        defineField({
+            name: 'ctaDescription',
+            title: 'Descripción CTA',
+            type: 'text',
+            rows: 2,
+            initialValue: 'Reserve una cita para diagnóstico, reparación o mantenimiento.',
+        }),
+        defineField({
+            name: 'ctaButtonText',
+            title: 'Texto Botón CTA',
+            type: 'string',
+            initialValue: 'Solicitar Cita',
+        }),
     ],
 })
