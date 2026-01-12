@@ -55,7 +55,37 @@ const testimonials = [
   },
 ]
 
-export function FeaturedSection() {
+const iconMap: Record<string, React.ReactNode> = {
+  users: <Users className="w-6 h-6" />,
+  award: <Award className="w-6 h-6" />,
+  shield: <Shield className="w-6 h-6" />,
+  "thumbs-up": <ThumbsUp className="w-6 h-6" />,
+}
+
+interface FeaturedProps {
+  data?: {
+    whyUsTitle?: string
+    whyUsDescription?: string
+    whyUsImage?: string
+    values?: Array<{
+      title: string
+      description: string
+      icon: string
+    }>
+    testimonialsTitle?: string
+    testimonials?: Array<{
+      name: string
+      role: string
+      text: string
+      rating: number
+    }>
+  }
+}
+
+export function FeaturedSection({ data }: FeaturedProps) {
+  const currentValues = data?.values || values
+  const currentTestimonials = data?.testimonials || testimonials
+
   return (
     <section id="nosotros" className="py-24 bg-[#111111] relative overflow-hidden">
       {/* Background elements */}
@@ -71,7 +101,7 @@ export function FeaturedSection() {
               <div className="relative">
                 <div className="relative aspect-[4/3] rounded-sm overflow-hidden">
                   <img
-                    src="/professional-mechanic-working-on-german-luxury-car.jpg"
+                    src={data?.whyUsImage || "/professional-mechanic-working-on-german-luxury-car.jpg"}
                     alt="Mecánico experto trabajando"
                     className="w-full h-full object-cover"
                   />
@@ -108,22 +138,28 @@ export function FeaturedSection() {
 
                 {/* Values grid */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  {values.map((value, index) => (
-                    <ScrollAnimation key={index} delay={index * 100} direction="up">
-                      <div className="group flex items-start gap-4 bg-[#0a0a0a] border border-[#1a1a1a] rounded-sm p-5 hover:border-[#262626] transition-all h-full">
-                        <div
-                          className="w-12 h-12 rounded-sm flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: `${value.accent}15` }}
-                        >
-                          <value.icon className="w-6 h-6" style={{ color: value.accent }} />
+                  {currentValues.map((value: any, index: number) => {
+                    const icon = iconMap[value.icon] || <Shield className="w-6 h-6" />
+                    const accents = ["#0066B1", "#c41e3a", "#c0c0c0", "#0066B1"]
+                    const accent = accents[index % 4]
+
+                    return (
+                      <ScrollAnimation key={index} delay={index * 100} direction="up">
+                        <div className="group flex items-start gap-4 bg-[#0a0a0a] border border-[#1a1a1a] rounded-sm p-5 hover:border-[#262626] transition-all h-full">
+                          <div
+                            className="w-12 h-12 rounded-sm flex items-center justify-center shrink-0"
+                            style={{ backgroundColor: `${accent}15` }}
+                          >
+                            <div style={{ color: accent }}>{icon}</div>
+                          </div>
+                          <div>
+                            <h3 className="text-white font-semibold mb-1">{value.title}</h3>
+                            <p className="text-[#a0a0a0] text-sm leading-relaxed">{value.description}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-white font-semibold mb-1">{value.title}</h3>
-                          <p className="text-[#a0a0a0] text-sm leading-relaxed">{value.description}</p>
-                        </div>
-                      </div>
-                    </ScrollAnimation>
-                  ))}
+                      </ScrollAnimation>
+                    )
+                  })}
                 </div>
               </div>
             </ScrollAnimation>
@@ -146,15 +182,15 @@ export function FeaturedSection() {
           </ScrollAnimation>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <ScrollAnimation key={testimonial.id} delay={index * 150} direction="up">
+            {currentTestimonials.map((testimonial: any, index: number) => (
+              <ScrollAnimation key={index} delay={index * 150} direction="up">
                 <div className="group bg-[#0a0a0a] border border-[#1a1a1a] rounded-sm p-8 hover:border-[#0066B1]/30 transition-all duration-300 relative h-full">
                   {/* Quote icon */}
                   <Quote className="w-10 h-10 text-[#1a1a1a] mb-4" />
 
                   {/* Rating */}
                   <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+                    {[...Array(testimonial.rating || 5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 text-[#FFD700] fill-[#FFD700]" />
                     ))}
                   </div>

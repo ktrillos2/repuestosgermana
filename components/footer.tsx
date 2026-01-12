@@ -1,6 +1,20 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
 
-export function Footer() {
+interface FooterProps {
+  settings?: {
+    phoneNumber?: string
+    whatsappNumber?: string
+    email?: string
+    address?: string
+    socials?: {
+      facebook?: string
+      instagram?: string
+    }
+  }
+}
+
+export function Footer({ settings }: FooterProps) {
+
   return (
     <footer className="bg-[#0a0a0a] border-t border-[#1a1a1a]">
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -16,32 +30,34 @@ export function Footer() {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase tracking-wider">Contacto</h4>
+            <h3 className="text-white font-bold uppercase tracking-wider">Contacto</h3>
             <div className="space-y-3">
               <a
-                href="tel:+573025459865"
+                href={`tel:+57${settings?.phoneNumber || "3025459865"}`}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#0066B1]" />
-                (+57) 302 545 9865
+                (+57) {settings?.phoneNumber || "302 545 9865"}
               </a>
               <a
-                href="tel:+573043598195"
+                href={`https://wa.me/${settings?.whatsappNumber || "573043598195"}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#c41e3a]" />
-                (+57) 304 359 8195
+                (+57) {settings?.whatsappNumber || "304 359 8195"}
               </a>
               <div className="flex items-center gap-3 text-[#a0a0a0] text-sm">
                 <Mail className="w-4 h-4 text-[#0066B1]" />
-                info@repuestosgermana.com
+                {settings?.email || "info@repuestosgermana.com"}
               </div>
             </div>
           </div>
 
           {/* Hours */}
           <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase tracking-wider">Horario</h4>
+            <h3 className="text-white font-bold uppercase tracking-wider">Horario</h3>
             <div className="space-y-2 text-[#a0a0a0] text-sm">
               <div className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-[#0066B1]" />
@@ -60,7 +76,7 @@ export function Footer() {
 
           {/* Location */}
           <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase tracking-wider">Ubicación</h4>
+            <h3 className="text-white font-bold uppercase tracking-wider">Ubicación</h3>
             <div className="flex items-start gap-3 text-[#a0a0a0] text-sm">
               <MapPin className="w-4 h-4 text-[#0066B1] mt-0.5" />
               <span>Bogotá, Colombia</span>

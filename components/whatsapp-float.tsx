@@ -3,7 +3,14 @@
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
-export function WhatsAppFloat() {
+interface WhatsAppFloatProps {
+    settings?: {
+        whatsappNumber?: string
+    }
+}
+
+export function WhatsAppFloat({ settings }: WhatsAppFloatProps) {
+
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
@@ -23,7 +30,7 @@ export function WhatsAppFloat() {
 
     return (
         <a
-            href="https://wa.me/573025459865"
+            href={`https://wa.me/${settings?.whatsappNumber || "573025459865"}`}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(

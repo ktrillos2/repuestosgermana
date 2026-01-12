@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Phone, Calendar, MapPin, Clock, ChevronRight, Wrench, Settings, Activity } from "lucide-react"
+import { Phone, Calendar, MapPin, Clock, ChevronRight, Wrench, Settings, Activity, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const heroSlides = [
@@ -22,32 +22,51 @@ const heroSlides = [
   },
 ]
 
-const serviceCards = [
-  {
-    title: "Mecánica Especializada",
-    description: "Mantenimiento preventivo y correctivo con honestidad y garantía.",
-    icon: <Wrench className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)]" />,
-  },
-  {
-    title: "Repuestos Originales",
-    description: "Importamos y comercializamos repuestos nuevos o usados.",
-    icon: <Settings className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)] animate-slow-spin-hover" />,
-  },
-  {
-    title: "Diagnóstico Express",
-    description: "Escáner, cambio de aceite, pastillas, batería o filtros.",
-    icon: <Activity className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)]" />,
-  },
-]
+const iconMap: Record<string, React.ReactNode> = {
+  wrench: <Wrench className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)]" />,
+  settings: <Settings className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)] animate-slow-spin-hover" />,
+  package: <Package className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)]" />,
+  activity: <Activity className="w-7 h-7 text-[#0066B1] group-hover:text-white transition-colors drop-shadow-[0_0_8px_rgba(0,102,177,0.5)]" />,
+}
 
-export function HeroSection() {
+interface HeroProps {
+  data?: {
+    mainHeading?: string
+    slides?: Array<{
+      title: string
+      subtitle: string
+      color: string
+    }>
+    backgroundImage?: string
+  }
+  services?: {
+    cards?: Array<{
+      title: string
+      description: string
+      icon: string
+    }>
+  }
+  settings?: {
+    whatsappNumber?: string
+  }
+}
+
+
+export function HeroSection({ data, services, settings }: HeroProps) {
+  const slides = data?.slides || heroSlides
+  const cards = services?.cards || []
+
+  // Ensure consistent slides logic
+  const activeSlides = slides.length > 0 ? slides : heroSlides
+
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     setIsVisible(true)
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+      setCurrentSlide((prev) => (prev + 1) % activeSlides.length)
+
     }, 4000)
     return () => clearInterval(interval)
   }, [])
@@ -57,8 +76,9 @@ export function HeroSection() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="/luxury-german-car-workshop-interior-dark-ambient-l.jpg"
-          alt="Taller Automotriz Premium"
+          src={data?.backgroundImage || "/luxury-german-car-workshop-interior-dark-ambient-l.jpg"}
+
+          alt={data?.mainHeading || "Taller Automotriz Premium"}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/90 to-[#0a0a0a]/60" />
@@ -86,14 +106,14 @@ export function HeroSection() {
                 <br />
                 <span
                   className="inline-block transition-all duration-500"
-                  style={{ color: heroSlides[currentSlide].color }}
+                  style={{ color: activeSlides[currentSlide].color }}
                 >
-                  {heroSlides[currentSlide].title}
+                  {activeSlides[currentSlide].title}
                 </span>
               </h1>
 
               <p className="text-[#a0a0a0] text-lg italic transition-all duration-500" key={currentSlide}>
-                {heroSlides[currentSlide].subtitle}
+                {activeSlides[currentSlide].subtitle}
               </p>
 
               <p className="text-[#b0b0b0] text-lg md:text-xl max-w-lg leading-relaxed">
@@ -109,7 +129,7 @@ export function HeroSection() {
             <div className="h-1.5 w-40 m-stripe rounded-full" />
 
             <div className="flex items-center gap-2">
-              {heroSlides.map((_, index) => (
+              {activeSlides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
@@ -125,7 +145,7 @@ export function HeroSection() {
                 className="bg-[#25D366] hover:bg-[#22c55e] text-white font-bold px-8 py-7 rounded-sm uppercase tracking-wider text-sm transition-all hover:shadow-[0_0_30px_rgba(37,211,102,0.4)] hover:scale-105 group"
                 asChild
               >
-                <a href="https://wa.me/573025459865" target="_blank" rel="noopener noreferrer">
+                <a href={`https://wa.me/${settings?.whatsappNumber || "573025459865"}`} target="_blank" rel="noopener noreferrer">
                   <svg className="w-5 h-5 mr-2 group-hover:animate-bounce" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                   </svg>
@@ -182,7 +202,7 @@ export function HeroSection() {
           <div
             className={`relative hidden lg:flex flex-col gap-4 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}
           >
-            {serviceCards.map((card, index) => (
+            {cards.map((card: any, index: number) => (
               <div
                 key={index}
                 className="bg-[#111111]/90 backdrop-blur-md border border-[#1a1a1a] rounded-sm p-6 hover:border-[#0066B1] transition-all duration-300 cursor-pointer group hover:scale-[1.02]"
@@ -192,7 +212,7 @@ export function HeroSection() {
               >
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 rounded-sm bg-[#0066B1]/10 flex items-center justify-center group-hover:bg-[#0066B1] transition-colors text-2xl">
-                    {card.icon}
+                    {iconMap[card.icon] || <Wrench className="w-7 h-7" />}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold text-lg mb-1 group-hover:text-[#0066B1] transition-colors">

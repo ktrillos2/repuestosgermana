@@ -55,7 +55,32 @@ const services = [
   },
 ]
 
-export function CategoriesSection() {
+const iconMap: Record<string, React.ReactNode> = {
+  wrench: <Wrench className="w-7 h-7" />,
+  settings: <Settings className="w-7 h-7" />,
+  gauge: <Gauge className="w-7 h-7" />,
+  zap: <Zap className="w-7 h-7" />,
+  wind: <Wind className="w-7 h-7" />,
+  "circle-dot": <CircleDot className="w-7 h-7" />,
+}
+
+interface CategoriesProps {
+  data?: {
+    heading?: string
+    subheading?: string
+    description?: string
+    services?: Array<{
+      number: string
+      name: string
+      description: string
+      icon: string
+    }>
+  }
+}
+
+export function CategoriesSection({ data }: CategoriesProps) {
+  const servicesList = data?.services || services
+
   return (
     <section id="servicios" className="py-24 bg-[#0a0a0a] relative overflow-hidden">
       {/* Background decoration */}
@@ -96,44 +121,52 @@ export function CategoriesSection() {
 
         {/* Services grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <ScrollAnimation key={service.id} delay={index * 100} direction="up">
-              <div className="group relative bg-[#111111] border border-[#1a1a1a] rounded-sm overflow-hidden hover:border-[#262626] transition-all duration-500 cursor-pointer h-full">
-                {/* Number watermark */}
-                <div className="absolute top-4 right-4 text-6xl font-bold text-[#1a1a1a] group-hover:text-[#262626] transition-colors">
-                  {service.number}
-                </div>
+          {servicesList.map((service: any, index: number) => {
+            // Fallback for hardcoded services if not dynamic
+            const icon = iconMap[service.icon] || <Wrench className="w-7 h-7" />
+            // Hardcoded colors for now as requested no CSS editing, defaulting to brand blue/red/grey rotation if dynamic
+            const accents = ["#0066B1", "#c41e3a", "#c0c0c0"]
+            const accent = service.accent || accents[index % 3]
 
-                {/* Content */}
-                <div className="relative p-8">
-                  {/* Icon */}
+            return (
+              <ScrollAnimation key={index} delay={index * 100} direction="up">
+                <div className="group relative bg-[#111111] border border-[#1a1a1a] rounded-sm overflow-hidden hover:border-[#262626] transition-all duration-500 cursor-pointer h-full">
+                  {/* Number watermark */}
+                  <div className="absolute top-4 right-4 text-6xl font-bold text-[#1a1a1a] group-hover:text-[#262626] transition-colors">
+                    {service.number}
+                  </div>
+
+                  {/* Content */}
+                  <div className="relative p-8">
+                    {/* Icon */}
+                    <div
+                      className="w-14 h-14 rounded-sm flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                      style={{ backgroundColor: `${accent}15` }}
+                    >
+                      <div style={{ color: accent }}>{icon}</div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#0066B1] transition-colors">
+                      {service.name}
+                    </h3>
+                    <p className="text-[#a0a0a0] text-sm leading-relaxed mb-6">{service.description}</p>
+
+                    {/* Link */}
+                    <div className="flex items-center gap-2 text-[#0066B1] font-semibold text-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span>Más Info</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+
+                  {/* Bottom accent line */}
                   <div
-                    className="w-14 h-14 rounded-sm flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
-                    style={{ backgroundColor: `${service.accent}15` }}
-                  >
-                    <service.icon className="w-7 h-7" style={{ color: service.accent }} />
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#0066B1] transition-colors">
-                    {service.name}
-                  </h3>
-                  <p className="text-[#a0a0a0] text-sm leading-relaxed mb-6">{service.description}</p>
-
-                  {/* Link */}
-                  <div className="flex items-center gap-2 text-[#0066B1] font-semibold text-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span>Más Info</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                    className="absolute bottom-0 left-0 w-0 h-[3px] group-hover:w-full transition-all duration-500"
+                    style={{ backgroundColor: accent }}
+                  />
                 </div>
-
-                {/* Bottom accent line */}
-                <div
-                  className="absolute bottom-0 left-0 w-0 h-[3px] group-hover:w-full transition-all duration-500"
-                  style={{ backgroundColor: service.accent }}
-                />
-              </div>
-            </ScrollAnimation>
-          ))}
+              </ScrollAnimation>
+            )
+          })}
         </div>
 
         {/* CTA Section */}

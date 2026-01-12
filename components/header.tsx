@@ -11,8 +11,24 @@ const navLinks = [
   { name: "Contacto", href: "#contacto" },
 ]
 
-export function Header() {
+interface HeaderProps {
+  settings?: {
+    logo?: string
+    headerMenu?: {
+      items?: Array<{ name: string; href: string }>
+    }
+  }
+}
+
+export function Header({ settings }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const navLinks = settings?.headerMenu?.items || [
+    { name: "Inicio", href: "#" },
+    { name: "Servicios", href: "#servicios" },
+    { name: "Nosotros", href: "#nosotros" },
+    { name: "Contacto", href: "#contacto" },
+  ]
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
@@ -43,7 +59,7 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/images/image.png" alt="Repuestos Germana" className="h-10 md:h-12 w-auto" />
+              <img src={settings?.logo || "/images/image.png"} alt="Repuestos Germana" className="h-10 md:h-12 w-auto" />
             </div>
 
             {/* Desktop Navigation */}
