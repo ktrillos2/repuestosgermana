@@ -18,6 +18,26 @@ export async function sendEmail(formData: FormData) {
         const settings = await client.fetch(SETTINGS_QUERY)
         const toEmail = settings?.email || "info@repuestosgermana.com"
 
+        // Process logo: Fetch and inline as Base64 to avoid domain warnings
+        let logoUrl = settings?.logo
+        if (logoUrl) {
+            try {
+                // Resize to max 300px width for email
+                const optimizedUrl = `${logoUrl}?w=300&auto=format`
+                const response = await fetch(optimizedUrl)
+                if (response.ok) {
+                    const arrayBuffer = await response.arrayBuffer()
+                    const buffer = Buffer.from(arrayBuffer)
+                    const base64 = buffer.toString('base64')
+                    const mimeType = response.headers.get('content-type') || 'image/png'
+                    logoUrl = `data:${mimeType};base64,${base64}`
+                }
+            } catch (error) {
+                console.warn("Failed to inline logo, falling back to URL:", error)
+                // Fallback to original URL
+            }
+        }
+
         const { data, error } = await resend.emails.send({
             from: "onboarding@resend.dev", // Using default for now
             to: "linamariaesp2106@gmail.com", // Updated to verified email for testing
@@ -28,7 +48,7 @@ export async function sendEmail(formData: FormData) {
                 email,
                 telefono,
                 mensaje,
-                logoUrl: settings?.logo
+                logoUrl // Now potentially Base64
             }),
         })
 
