@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { handleWhatsAppClick } from "@/lib/gtag"
 
 interface WhatsAppFloatProps {
     settings?: {
@@ -31,6 +32,7 @@ export function WhatsAppFloat({ settings }: WhatsAppFloatProps) {
     return (
         <a
             href={`https://wa.me/57${settings?.whatsappNumber || "3025459865"}`}
+            onClick={(e) => handleWhatsAppClick(e, `https://wa.me/57${settings?.whatsappNumber || "3025459865"}`)}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(

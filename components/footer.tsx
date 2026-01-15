@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
+import { handleWhatsAppClick } from "@/lib/gtag"
 
 interface FooterProps {
   settings?: {
@@ -44,6 +45,7 @@ export function Footer({ settings }: FooterProps) {
                 href={`https://wa.me/${settings?.whatsappNumber || "573043598195"}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => handleWhatsAppClick(e, `https://wa.me/${settings?.whatsappNumber || "573043598195"}`)}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#c41e3a]" />
