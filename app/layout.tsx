@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Oxanium } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import Script from "next/script"
 import "./globals.css"
 
 const oxanium = Oxanium({
@@ -65,6 +66,19 @@ export default async function RootLayout({
         {children}
         <WhatsAppFloat settings={settings} />
         <Analytics />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17876761326"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-17876761326');
+          `}
+        </Script>
       </body>
     </html>
   )
