@@ -1,3 +1,5 @@
+"use client"
+
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
 import { handleWhatsAppClick } from "@/lib/gtag"
 
