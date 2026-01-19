@@ -1,7 +1,7 @@
 "use client"
 
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
-import { handleWhatsAppClick } from "@/lib/gtag"
+import { handleConversionClick } from "@/lib/conversion-utils"
 
 interface FooterProps {
   settings?: {
@@ -38,6 +38,7 @@ export function Footer({ settings }: FooterProps) {
             <div className="space-y-3">
               <a
                 href={`tel:+57${settings?.phoneNumber || "3025459865"}`}
+                onClick={(e) => handleConversionClick(e, `tel:+57${settings?.phoneNumber || "3025459865"}`, "Footer Teléfono")}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#0066B1]" />
@@ -47,16 +48,20 @@ export function Footer({ settings }: FooterProps) {
                 href={`https://wa.me/${settings?.whatsappNumber || "573043598195"}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => handleWhatsAppClick(e, `https://wa.me/${settings?.whatsappNumber || "573043598195"}`)}
+                onClick={(e) => handleConversionClick(e, `https://wa.me/${settings?.whatsappNumber || "573043598195"}`, "Footer WhatsApp Link")}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#c41e3a]" />
                 (+57) {settings?.whatsappNumber || "304 359 8195"}
               </a>
-              <div className="flex items-center gap-3 text-[#a0a0a0] text-sm">
+              <a
+                href={`mailto:${settings?.email || "info@repuestosgermana.com"}`}
+                onClick={(e) => handleConversionClick(e, `mailto:${settings?.email || "info@repuestosgermana.com"}`, "Footer Email")}
+                className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
+              >
                 <Mail className="w-4 h-4 text-[#0066B1]" />
                 {settings?.email || "info@repuestosgermana.com"}
-              </div>
+              </a>
             </div>
           </div>
 
@@ -95,6 +100,6 @@ export function Footer({ settings }: FooterProps) {
           <div className="h-1 w-24 m-stripe rounded-full" />
         </div>
       </div>
-    </footer>
+    </footer >
   )
 }
