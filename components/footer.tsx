@@ -1,7 +1,7 @@
 "use client"
 
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
-import { handleConversionClick } from "@/lib/conversion-utils"
+import { trackContactInteraction } from "@/lib/conversion-utils"
 
 interface FooterProps {
   settings?: {
@@ -38,7 +38,7 @@ export function Footer({ settings }: FooterProps) {
             <div className="space-y-3">
               <a
                 href={`tel:+57${settings?.phoneNumber || "3025459865"}`}
-                onClick={(e) => handleConversionClick(e, `tel:+57${settings?.phoneNumber || "3025459865"}`, "Footer Teléfono")}
+                onClick={(e) => trackContactInteraction(e, `tel:+57${settings?.phoneNumber || "3025459865"}`, "Footer Teléfono")}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#0066B1]" />
@@ -48,7 +48,7 @@ export function Footer({ settings }: FooterProps) {
                 href={`https://wa.me/${settings?.whatsappNumber || "573043598195"}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => handleConversionClick(e, `https://wa.me/${settings?.whatsappNumber || "573043598195"}`, "Footer WhatsApp Link")}
+                onClick={(e) => trackContactInteraction(e, `https://wa.me/${settings?.whatsappNumber || "573043598195"}`, "Footer WhatsApp Link")}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-[#c41e3a]" />
@@ -56,7 +56,7 @@ export function Footer({ settings }: FooterProps) {
               </a>
               <a
                 href={`mailto:${settings?.email || "info@repuestosgermana.com"}`}
-                onClick={(e) => handleConversionClick(e, `mailto:${settings?.email || "info@repuestosgermana.com"}`, "Footer Email")}
+                onClick={(e) => trackContactInteraction(e, `mailto:${settings?.email || "info@repuestosgermana.com"}`, "Footer Email")}
                 className="flex items-center gap-3 text-[#a0a0a0] hover:text-[#0066B1] transition-colors text-sm"
               >
                 <Mail className="w-4 h-4 text-[#0066B1]" />
