@@ -28,7 +28,16 @@ export const trackContactInteraction = async (
     // Since most are target="_blank" (WhatsApp), it should be fine.
     sendConversionAlert(sourceName, url).catch(err => console.error("Alert error:", err))
 
-    // 2. Handle Navigation
+    // 2. Fire Google Ads Conversion
+    if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "conversion", {
+            send_to: GA_CONVERSION_ID,
+            value: 1.0,
+            currency: "COP",
+        })
+    }
+
+    // 3. Handle Navigation
     // If it's a standard link with target="_blank", the browser handles it.
     // If we need to enforce tracking before navigation for same-tab links, we would use e.preventDefault().
     // For WhatsApp, we generally let it bubble up.
