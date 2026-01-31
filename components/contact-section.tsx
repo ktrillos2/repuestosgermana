@@ -12,6 +12,7 @@ import { trackContactInteraction, GA_CONVERSION_ID } from "@/lib/conversion-util
 
 const contactInfo = [
   {
+    id: "phone",
     icon: Phone,
     title: "Teléfonos",
     details: ["(+57) 302 545 9865"], // Default fallback
@@ -19,6 +20,7 @@ const contactInfo = [
     href: "tel:",
   },
   {
+    id: "email",
     icon: Mail,
     title: "Email",
     details: ["info@repuestosgermana.com"],
@@ -26,12 +28,14 @@ const contactInfo = [
     href: "mailto:info@repuestosgermana.com",
   },
   {
+    id: "schedule",
     icon: Clock,
     title: "Horario",
     details: ["Lun - Vie: 8:00 - 17:00", "Sábado: 8:30 - 15:00"],
     color: "#0066B1",
   },
   {
+    id: "location",
     icon: MapPin,
     title: "Ubicación",
     details: ["Bogotá, Colombia"],
@@ -156,27 +160,30 @@ export function ContactSection({ data, settings }: ContactProps) {
                 let href = info.href;
                 let title = info.title;
 
-                if (info.title === "Teléfonos") {
+                if (info.id === "phone") {
                   title = data?.phoneTitle || "Teléfonos";
                   if (settings?.phoneNumber) {
-                    details = [`(+57) ${settings.phoneNumber}`, `(+57) ${settings.whatsappNumber || ""}`];
+                    details = [`(+57) ${settings.phoneNumber}`];
+                    if (settings.whatsappNumber) {
+                      details.push(`(+57) ${settings.whatsappNumber}`);
+                    }
                     href = `tel:+57${settings.phoneNumber}`;
                   }
                 }
-                if (info.title === "Email") {
+                if (info.id === "email") {
                   title = data?.emailTitle || "Email";
                   if (settings?.email) {
                     details = [settings.email];
                     href = `mailto:${settings.email}`;
                   }
                 }
-                if (info.title === "Horario") {
+                if (info.id === "schedule") {
                   title = data?.scheduleTitle || "Horario";
                   if (settings?.schedule) {
                     details = settings.schedule;
                   }
                 }
-                if (info.title === "Ubicación") {
+                if (info.id === "location") {
                   title = data?.locationTitle || "Ubicación";
                   if (settings?.address) {
                     details = [settings.address];
