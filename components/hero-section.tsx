@@ -106,20 +106,11 @@ export function HeroSection({ data, services, settings }: HeroProps) {
                   <span className="text-white">{data.mainHeading}</span>
                 ) : (
                   <>
-                    <span className="text-white">Especialistas en</span>
+                    <span className="text-white">Repuestos y Taller</span>
                     <br />
-                    <span className="chrome-text">Vehículos</span>
+                    <span className="chrome-text">Vehículos Alemanes</span>
                   </>
                 )}
-                {/* Removed dynamic slide title to avoid redundancy if mainHeading is full, 
-                    OR keep it if mainHeading is just the prefix. 
-                    User asked to update textual content. 
-                    If I use mainHeading, I might not want the dynamic suffix loop unless mainHeading implies it. 
-                    But the loop is "activeSlides[currentSlide].title". 
-                    If user changes mainHeading to "Bienvenidos a", then "BMW" etc makes sense.
-                    If user sets mainHeading to "Taller Germana", then "BMW" appears after.
-                    I will keep the loop. 
-                */}
                 <br />
                 <span
                   className="inline-block transition-all duration-500"

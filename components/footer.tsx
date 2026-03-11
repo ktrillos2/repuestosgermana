@@ -96,8 +96,17 @@ export function Footer({ settings }: FooterProps) {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-[#1a1a1a] flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#a0a0a0] text-sm">© 2026 Repuestos Germana. Todos los derechos reservados.</p>
+          <p className="text-[#a0a0a0] text-sm">© {new Date().getFullYear()} Repuestos Germana. Todos los derechos reservados.</p>
           <div className="h-1 w-24 m-stripe rounded-full" />
+          <a
+            href="https://www.kytcode.lat"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#a0a0a0] text-sm hover:text-white transition-colors flex items-center gap-1"
+          >
+            Desarrollado por K&T
+            <span className="text-white" aria-hidden="true">♥</span>
+          </a>
         </div>
       </div>
     </footer >
