@@ -77,8 +77,19 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: SITE_URL,
     },
     icons: {
-      icon: logo,
+      icon: [
+        { url: logo, sizes: "32x32" },
+        { url: logo, sizes: "192x192" },
+        { url: logo, sizes: "512x512" },
+      ],
+      shortcut: logo,
       apple: logo,
+      other: [
+        {
+          rel: "apple-touch-icon-precomposed",
+          url: logo,
+        },
+      ],
     },
     openGraph: {
       type: "website",
@@ -110,11 +121,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /** JSON-LD structured data for LocalBusiness + AutoPartsStore */
-function JsonLdSchema() {
+function JsonLdSchema({ logoUrl }: { logoUrl: string }) {
+  const fullLogoUrl = logoUrl.startsWith("http") ? logoUrl : `${SITE_URL}${logoUrl}`
+  
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": ["AutoPartsStore", "LocalBusiness"],
     name: "Repuestos Germana",
+    logo: fullLogoUrl,
+    image: fullLogoUrl,
     description:
       "Compra repuestos originales y alternativos para BMW, Mercedes-Benz, Audi, Volkswagen, Porsche y Mini Cooper en Bogotá. Autopartes alemanas: pastillas de freno, amortiguadores, filtros, suspensión y más. Taller especializado con garantía.",
     url: SITE_URL,
@@ -145,7 +160,6 @@ function JsonLdSchema() {
       },
     ],
     priceRange: "$$",
-    image: `${SITE_URL}/images/image.png`,
     sameAs: [],
     areaServed: {
       "@type": "City",
@@ -206,11 +220,12 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const settings = await client.fetch(SETTINGS_QUERY)
+  const logoUrl = settings?.logo || "/images/image.png"
 
   return (
     <html lang="es">
       <head>
-        <JsonLdSchema />
+        <JsonLdSchema logoUrl={logoUrl} />
       </head>
       <body className={`${oxanium.className} antialiased`}>
         {children}
