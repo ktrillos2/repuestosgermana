@@ -20,7 +20,8 @@ declare global {
 export const trackContactInteraction = async (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
     url: string,
-    sourceName: string
+    sourceName: string,
+    isConversion: boolean = false
 ) => {
     // 1. Send Email Alert (Non-blocking)
     // We don't await this because we want the user to proceed immediately.
@@ -29,10 +30,10 @@ export const trackContactInteraction = async (
     sendConversionAlert(sourceName, url).catch(err => console.error("Alert error:", err))
 
     // 2. Fire Google Ads Conversion
-    if (typeof window !== "undefined" && window.gtag) {
+    if (isConversion && typeof window !== "undefined" && window.gtag) {
         window.gtag("event", "conversion", {
             send_to: GA_CONVERSION_ID,
-            value: 1.0,
+            value: 2000.0,
             currency: "COP",
         })
     }

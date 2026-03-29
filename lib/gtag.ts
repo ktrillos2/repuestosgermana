@@ -22,7 +22,7 @@ export const reportConversion = (url?: string) => {
     if (typeof window.gtag !== "undefined") {
         window.gtag("event", "conversion", {
             send_to: GA_CONVERSION_ID,
-            value: 1.0,
+            value: 2000.0,
             currency: "COP",
             event_callback: callback,
         })
@@ -35,7 +35,7 @@ export const reportConversion = (url?: string) => {
 }
 
 // Helper specific for WhatsApp buttons that usually open in new tab
-export const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+export const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string, isConversion: boolean = false) => {
     // We want to track the conversion but NOT prevent default immediately if we want to support ctrl+click etc.
     // However, the requested snippet uses a callback to redirect. 
     // For external links opening in new tab, the callback redirecting window.location is wrong (it would redirect the current page).
@@ -55,10 +55,10 @@ export const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>, url:
     // Strategy: Fire the event, and let the browser handle the new tab opening. 
     // We won't use the 'event_callback' to redirect for target="_blank" links, just for tracking.
 
-    if (typeof window.gtag !== "undefined") {
+    if (isConversion && typeof window.gtag !== "undefined") {
         window.gtag("event", "conversion", {
             send_to: GA_CONVERSION_ID,
-            value: 1.0,
+            value: 2000.0,
             currency: "COP",
             // unique_transaction_id: ... // Optional
         })
