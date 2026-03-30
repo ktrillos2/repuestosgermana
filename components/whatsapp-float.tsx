@@ -32,7 +32,7 @@ export function WhatsAppFloat({ settings }: WhatsAppFloatProps) {
     return (
         <a
             href={`https://wa.me/57${settings?.whatsappNumber || "3025459865"}`}
-            onClick={(e) => trackContactInteraction(e, `https://wa.me/57${settings?.whatsappNumber || "3025459865"}`, "WhatsApp Botón Flotante")}
+            onClick={(e) => trackContactInteraction(e, `https://wa.me/57${settings?.whatsappNumber || "3025459865"}`, "WhatsApp Botón Flotante", true)}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
